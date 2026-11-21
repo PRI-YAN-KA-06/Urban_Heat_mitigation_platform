@@ -21,4 +21,4 @@ The collection identifiers below are taken from `GEE/Jaipur_Heat_v3.js`. They do
 - MODIS MOD16A2 ET is filtered using the fixed interval `2025-01-01` to `2025-12-31`.
 - WorldPop is a static population layer rather than a contemporaneous observation matching the satellite windows.
 
-These inputs therefore do not share one synchronised observation period. Any comparison or interpretation should record the actual source dates and acknowledge the temporal mismatch.
+The aim of this architechture was to make every data update together, if some datasets and satellite analysis are updated while others still need time then analysis can go wrong.
