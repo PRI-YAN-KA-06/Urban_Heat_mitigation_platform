@@ -20,7 +20,7 @@ Show one clear thermal or composite heat-analysis output from the script, such a
 This figure represents the script's day/night heat-analysis approach. It does not need to show every thermal or composite index at once.
 
 <!-- Add the screenshot below, then uncomment the image line. -->
-![Thermal and Heat-risk Analysis](02-heat-analysis.png.png)
+![Thermal and Heat-risk Analysis](02-thermal-and-heat-risk.png.png)
 
 ## 3. Mitigation-suitability mapping
 
@@ -30,7 +30,7 @@ These are screening masks based on the thresholds encoded in the script. They id
 
 
 <!-- Add the screenshot below, then uncomment the image line. -->
-![Mitigation Suitability Maps](03-mitigation-mapping.png.png)
+![Mitigation Suitability Maps](03-mitigation-suitability.png.png)
 
 ## Other layers in the analysis
 
