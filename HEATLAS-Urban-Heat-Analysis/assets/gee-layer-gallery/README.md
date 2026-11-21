@@ -20,7 +20,7 @@ Show one clear thermal or composite heat-analysis output from the script, such a
 This figure represents the script's day/night heat-analysis approach. It does not need to show every thermal or composite index at once.
 
 <!-- Add the screenshot below, then uncomment the image line. -->
-![Representative thermal and heat-risk analysis in GEE](02-thermal-and-heat-risk.png)
+![Thermal and Heat-risk Analysis](02-heat-analysis.png)
 
 ## 3. Mitigation-suitability mapping
 
@@ -30,7 +30,7 @@ These are screening masks based on the thresholds encoded in the script. They id
 
 
 <!-- Add the screenshot below, then uncomment the image line. -->
-![Representative mitigation-suitability layer in GEE](03-mitigation-suitability.png)
+![Mitigation Suitability Maps](03-mitigation-mapping.png)
 
 ## Other layers in the analysis
 
