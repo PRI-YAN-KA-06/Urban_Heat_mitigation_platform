@@ -8,7 +8,7 @@ The figures are intended to give readers a quick visual understanding of the wor
 
 Show the GEE Code Editor with `Jaipur_Heat_v3.js` open, the Jaipur study area visible on the map, and the Layers panel expanded. Where possible, make the Jaipur boundary and 1 km grid visible. This figure establishes the study area, spatial framework and working analysis environment.
 
-![GEE Workspace and Jaipur Grid](01-gee-workspace-and-grid.png)
+![GEE Workspace and Jaipur Grid](01-gee-workspace-and-grid.png.png)
 
 <!-- Add the screenshot below, then uncomment the image line. -->
 <!-- ![GEE workspace showing the Jaipur study area and grid](01-gee-workspace-and-grid.png) -->
