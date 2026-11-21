@@ -8,7 +8,7 @@ The figures are intended to give readers a quick visual understanding of the wor
 
 Show the GEE Code Editor with `Jaipur_Heat_v3.js` open, the Jaipur study area visible on the map, and the Layers panel expanded. Where possible, make the Jaipur boundary and 1 km grid visible. This figure establishes the study area, spatial framework and working analysis environment.
 
-**Suggested filename:** `01-gee-workspace-and-grid.png`
+![GEE Workspace and Jaipur Grid](01-gee-workspace-and-grid.png)
 
 <!-- Add the screenshot below, then uncomment the image line. -->
 <!-- ![GEE workspace showing the Jaipur study area and grid](01-gee-workspace-and-grid.png) -->
@@ -19,10 +19,8 @@ Show one clear thermal or composite heat-analysis output from the script, such a
 
 This figure represents the script's day/night heat-analysis approach. It does not need to show every thermal or composite index at once.
 
-**Suggested filename:** `02-thermal-and-heat-risk.png`
-
 <!-- Add the screenshot below, then uncomment the image line. -->
-<!-- ![Representative thermal and heat-risk analysis in GEE](02-thermal-and-heat-risk.png) -->
+![Representative thermal and heat-risk analysis in GEE](02-thermal-and-heat-risk.png)
 
 ## 3. Mitigation-suitability mapping
 
@@ -30,10 +28,9 @@ Show one representative mitigation-suitability map, for example `Cool Roof Zones
 
 These are screening masks based on the thresholds encoded in the script. They identify cells that meet the respective conditions; they are not field-validated intervention plans and do not estimate cooling benefits or implementation feasibility.
 
-**Suggested filename:** `03-mitigation-suitability.png`
 
 <!-- Add the screenshot below, then uncomment the image line. -->
-<!-- ![Representative mitigation-suitability layer in GEE](03-mitigation-suitability.png) -->
+![Representative mitigation-suitability layer in GEE](03-mitigation-suitability.png)
 
 ## Other layers in the analysis
 
