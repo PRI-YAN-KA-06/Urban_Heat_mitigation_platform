@@ -53,15 +53,3 @@ The names below are taken from the `Map.addLayer()` calls in `GEE/Jaipur_Heat_v3
 - `Water Cooling Zones`
 - `Reflective Surface Zones`
 
-## Screenshot plan for the visual gallery
-
-Prefer a small number of legible, high-quality figures over a large collection of repetitive screenshots:
-
-1. GEE Code Editor overview with Jaipur map, script title and Layers panel visible.
-2. Study-area boundary and 1 km grid.
-3. Daytime and nighttime LST shown as separate figures with legends.
-4. A small set of environmental indicators (for example NDVI, NDBI and NDWI).
-5. Composite outputs: Heat Storage, Cooling Capacity, Day Heat Risk and Night Heat Risk.
-6. Mitigation-suitability masks, either as separate images or a carefully labelled comparison panel.
-
-Every figure should be captured from the actual GEE project, use a readable legend, and state the layer name and observation window where available. Do not use illustrative stock maps as evidence of project outputs.
