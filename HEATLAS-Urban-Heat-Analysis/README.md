@@ -1,97 +1,98 @@
-# HEATLAS: Geospatial Urban Heat Analysis for Jaipur
+# Geospatial Urban Heat Analysis and Mitigation Planning
 
-**Satellite-driven urban heat intelligence and mitigation suitability analysis**  
-Pilot study: Jaipur District, Rajasthan, India  
-Primary implementation: Google Earth Engine (JavaScript)
+**Project Named:** HEATLAS  
+**Pilot study:** Jaipur District, Rajasthan, India  
+**Primary implementation:** Google Earth Engine (JavaScript)  
+**Project context:** Bharatiya Antariksh Hackathon (BAH) 2026 · Team Cosmic Foundry · Rajasthan Technical University, Kota
 
-HEATLAS is a team research and engineering project exploring how satellite-derived environmental indicators and meteorological data can be combined to examine urban heat patterns at a 1 km grid scale. The current public repository focuses on the Google Earth Engine (GEE) analysis implemented for the Jaipur pilot.
+HEATLAS is a research-led project developed to investigate how urban heat varies across locations, what environmental and surface characteristics may be associated with that variation, and how mitigation planning can be better matched to local conditions. The current technical implementation is a Google Earth Engine (GEE) analysis for Jaipur District, using a nominal 1 km grid to examine spatial differences.
 
-> **Scope note:** This repository documents the GEE analysis prototype. It is not a completed or deployed urban-planning platform. The map layers and composite indices are exploratory analytical outputs and should not be treated as validated operational recommendations.
+> **Project status:** The Jaipur GEE analysis is the most developed technical component. The wider multi-scale decision-support platform, interactive interface, automated reporting and AI/ML capabilities remain proposed or under development. The analytical indices and suitability masks are exploratory and require further technical review and independent validation before operational use.
 
-## Research questions
+## Research motivation and design rationale
 
-The project is organised around four questions:
+I led the research framing and conceptual design of HEATLAS. The work began with a broad investigation: **How is urban heat increasing and distributed? What do scientific and technical reports and conference research identify about its patterns and drivers? What measures are already being used or planned, and where could urban heat mitigation be made more targeted?** Reviewing this material shaped the project from a general heat-mapping concept into a location-specific analysis and planning framework.
 
-1. **Where is heat concentrated?** Examine daytime and nighttime land surface temperature (LST) and spatial heat patterns.
-2. **What environmental characteristics co-occur with heat?** Explore vegetation, built-up proxies, surface water, albedo, terrain, moisture and atmospheric indicators.
-3. **Where may people be exposed?** Combine heat-related indicators with gridded population information to create an exposure-oriented view.
-4. **Where might cooling interventions be worth investigating?** Produce rule-based suitability masks for selected intervention types.
+A central insight behind the design was that **different places can experience heat for different reasons**. A map that only highlights hot areas does not necessarily explain which local conditions should guide an intervention. The project therefore brings together multiple environmental and surface indicators so that heat patterns can be examined alongside factors such as vegetation, built-up characteristics, surface reflectance, moisture and thermal conditions. The intention is to help planning authorities consider interventions that correspond to the local conditions, rather than defaulting to one measure—such as afforestation—everywhere. This can support more reasoned prioritisation and more efficient use of limited public funds. The current suitability masks are rule-based screening outputs, not validated estimates of intervention effectiveness.
 
-## Study framework
+Several design decisions followed from this research direction:
 
-| Item | Current implementation |
+- **Day and night heat analysis:** Separate daytime and nighttime views were included because some locations may retain heat after sunset. A place that does not stand out in a daytime assessment may still experience elevated nighttime temperatures and warrant earlier attention. Nighttime analysis was intended to help reveal these persistent heat patterns alongside daytime conditions.
+- **A 1 km district grid for local comparison:** The grid was introduced to examine smaller areas individually and compare neighbouring locations. This makes it easier to investigate why one cell appears hotter or behaves differently from surrounding cells, instead of relying only on a continuous physical heat map that identifies hotspots without the same cell-by-cell diagnostic structure. The grid is a common reporting framework; it does not change the native resolution of the input datasets.
+- **Area-specific analysis for planning and budgets:** The proposed interface included region selection through administrative boundaries, coordinates and user-defined polygons. This was intended to let authorities analyse a specific project area or budget-defined region, rather than being limited to a preselected district-wide view. Polygon and coordinate-based interface selection are proposed features and are not implemented in the current repository.
+- **Multi-scale navigation:** The planned interface was organised from national-level and state-level overviews to district-level analysis, followed by grid-level examination within a selected district. The national and state views were intended as broad physical-map overviews; the finer 1 km grid was intended for district-level investigation and comparison.
+- **Detailed analytical reporting:** The proposed reporting component was intended to bring together the selected area's layers, indicators, heat analysis and mitigation-suitability results so that planning decisions could be reviewed with supporting detail. Automated report generation is not implemented in the current codebase.
+
+The individual layers were selected and organised after reviewing research on urban heat and related environmental factors. Their purpose is diagnostic: they allow a user to inspect different conditions that may be associated with local heat patterns, rather than treating temperature as the only information needed for mitigation planning.
+
+## Current technical implementation
+
+The main GEE script, [`GEE/Jaipur_Heat_v3.js`](GEE/Jaipur_Heat_v3.js), currently includes:
+
+- Jaipur District boundary selection using FAO GAUL Level 2 and creation of a nominal 1 km grid in EPSG:3857.
+- Processing of MODIS day/night land surface temperature (LST), Sentinel-2 surface reflectance, ERA5-Land, Sentinel-5P aerosol data, SRTM terrain, ESA WorldCover, MODIS evapotranspiration and WorldPop population data.
+- Derived surface and environmental indicators, including NDVI, NDBI, NDWI, albedo, fractional vegetation cover, a built-density proxy, aerosol, terrain, evapotranspiration and soil-moisture variables.
+- Composite Heat Storage, Cooling Capacity, Day Heat Risk, Night Heat Risk, Exposure, Vulnerability and Resilience indices.
+- Four rule-based mitigation-suitability masks: cool roofs, urban forest, water-sensitive cooling and reflective surfaces.
+- Map visualisation and grid-level aggregation within the GEE Code Editor.
+
+Input datasets have different native spatial resolutions and temporal windows. The 1 km grid is used as a common spatial reporting framework; it should not be interpreted as making every input equally detailed at 1 km resolution.
+
+## Proposed planning interface
+
+The wider HEATLAS concept was designed around an authority-facing, hierarchical interface:
+
+1. **National overview** to identify broad spatial patterns.
+2. **State-level overview** to examine patterns within a selected state.
+3. **District-level analysis** to open a more detailed physical map and 1 km grid.
+4. **Local diagnostic view** to compare grid cells or examine a selected coordinate or polygon.
+5. **Detailed report** to consolidate the selected area's indicators, heat analysis and mitigation-suitability information.
+
+This structure was conceived to support progression from the Jaipur pilot to additional districts, state-level analysis and, eventually, national coverage. Only the Jaipur district GEE analysis is represented by the current main implementation; the wider geographic interface and reporting functions are future development directions.
+
+For the submitted process-flow and proposed architecture diagrams, see [Workflow and system architecture](assets/workflow-diagrams/README.md). For selected screenshots of the actual GEE layers, see the [GEE Layer Gallery](assets/gee-layer-gallery/README.md).
+
+## Research documentation
+
+| Document | Description |
 |---|---|
-| Pilot region | Jaipur District, Rajasthan, India |
-| Administrative boundary | FAO GAUL 2015, level 2; filtered to Jaipur |
-| Spatial framework | Approximately 1 km grid, generated in EPSG:3857 |
-| Main processing environment | Google Earth Engine Code Editor |
-| Main implementation | `GEE/Jaipur_Heat_v3.js` |
-| Current outputs | Map layers, printed feature information and a grid-level feature collection in the GEE session |
+| [Methodology](docs/methodology.md) | Study framework, preprocessing, derived indicators, index formulations and interpretation limits. |
+| [Data sources](docs/data_sources.md) | Earth Engine collection IDs, variables used, temporal filters and dataset references. |
+| [Layer catalogue](docs/layer_catalogue.md) | Map layers and variables generated by the current GEE script, including their role in the grid-level output. |
+| [Implementation status](docs/implementation_status.md) | Implemented components, incomplete integration, limitations and priority technical work. |
+| [Individual contribution](docs/individual_contribution.md) | Research framing, conceptual design, technical involvement and project-lead contribution. |
+| [GEE implementation notes](GEE/README.md) | How to explore the GEE script, its datasets, outputs and processing sequence. |
 
-## Repository structure
-
-```text
-HEATLAS-Urban-Heat-Analysis/
-├── README.md
-├── .gitignore
-├── GEE/
-│   ├── Jaipur_Heat_v3.js
-│   └── README.md
-├── docs/
-│   ├── data_sources.md
-│   ├── methodology.md
-│   ├── layer_catalogue.md
-│   ├── implementation_status.md
-│   └── individual_contribution.md
-└── assets/
-    ├── gee-layer-gallery/
-    │   └── README.md
-    └── workflow/
-        └── README.md
-```
-
-## Main analytical workflow
-
-1. Select the Jaipur district boundary.
-2. Generate a 1 km grid and attach grid-level metadata.
-3. Retrieve and process satellite, land-cover, population and meteorological datasets.
-4. Derive spectral and environmental indicators such as NDVI, NDBI and NDWI.
-5. Calculate heat-storage, cooling-capacity, day/night heat-risk, exposure, vulnerability and resilience indices.
-6. Generate four rule-based intervention-suitability masks.
-7. Display the thematic layers and inspect the grid-level feature collection in the GEE Code Editor.
-
-See [`docs/methodology.md`](docs/methodology.md) and [`docs/layer_catalogue.md`](docs/layer_catalogue.md) for details.
-
-## Data sources
-
-The current script references MODIS LST, Sentinel-2 surface reflectance, ERA5-Land, Sentinel-5P aerosol data, SRTM elevation, ESA WorldCover and WorldPop. The exact Earth Engine collection identifiers and their roles are listed in [`docs/data_sources.md`](docs/data_sources.md).
-
-## How to run the GEE script
+## Run the GEE analysis
 
 1. Sign in to an account with access to the [Google Earth Engine Code Editor](https://code.earthengine.google.com/).
-2. Open `GEE/Jaipur_Heat_v3.js` from this repository.
-3. Copy its contents into a new script in the Code Editor.
-4. Click **Run** and check the Console and map layers.
-5. Use the Layers panel to switch individual thematic layers on and off.
+2. Open [`GEE/Jaipur_Heat_v3.js`](GEE/Jaipur_Heat_v3.js) from this repository.
+3. Copy the script into a new or existing script in the Code Editor.
+4. Run the script and inspect the Console, map and Layers panel.
+5. Enable individual layers as needed to explore the study area, indicators, composite indices and suitability masks.
 
-The script is written for the GEE Code Editor and uses the Earth Engine JavaScript API. It is not a standalone Node.js script. The current version prints and displays its results in the Code Editor; it does **not** contain a CSV, GeoJSON, raster or Drive export task.
+The script uses the Earth Engine JavaScript API and is intended to run in the Code Editor; it is not a standalone Node.js program. In this version, the grid-level result is printed and displayed in the GEE session. The script does not currently include a CSV, GeoJSON, raster or Google Drive export task.
 
-## Current implementation status
+## Current implementation boundaries
 
-- **Implemented in the shared GEE script:** Jaipur boundary selection, 1 km grid generation, ingestion and processing of the listed datasets, derived indicators, composite indices, four suitability masks, map visualisation and grid-level aggregation.
-- **Requires further scientific and technical review:** index-weight normalisation, population aggregation, temporal consistency, albedo formulation, empty-collection handling and validation against independent observations.
-- **Not implemented in this repository release:** a connected production API, completed frontend/dashboard, trained machine-learning model, intervention simulator, AI assistant, automated refresh pipeline or deployed public service.
+**Implemented in the GEE script:** the Jaipur study boundary and grid, multi-source input processing, derived environmental indicators, composite indices, four rule-based suitability masks, map visualisation and grid-level aggregation.
 
-The current known limitations are documented in [`docs/implementation_status.md`](docs/implementation_status.md). Planned features must not be described as completed functionality.
+**Requires further technical or scientific review:** risk-weight normalisation, population aggregation, categorical-band aggregation, the albedo formulation, empty-collection safeguards, temporal consistency and validation against independent observations. Nighttime LST is calculated and displayed but is not included as a separate band in the final grid-level stack in this script version.
 
-## Team and contribution
+**Not implemented as an end-to-end system:** a connected production API, complete interactive frontend/dashboard, polygon or coordinate-based area selection, trained machine-learning model, intervention-impact simulator, Gemini-based assistant, automated multi-source refresh scheduler, automated report generation and public deployment. A separate Node.js/Express prototype exists in the broader project archive, but it is not connected to the main GEE v3 analysis and is not included in this repository's current technical scope.
 
-HEATLAS originated as a team project associated with Bharatiya Antariksh Hackathon 2026. Team-level attribution and individual responsibilities should be confirmed with the team before this repository is made public. The contribution record is intentionally kept separate in [`docs/individual_contribution.md`](docs/individual_contribution.md) so that it can describe each person's work accurately.
+The detailed status and priority corrections are documented in [`docs/implementation_status.md`](docs/implementation_status.md). Proposed architecture components and national/state-level expansion should be interpreted as future development directions.
 
-## Research use and interpretation
+## Team and individual contribution
 
-The indices in this prototype are constructed from selected datasets, normalisation ranges and weighted or threshold-based rules. They are useful for documenting an exploratory geospatial workflow, but they do not by themselves establish causal effects or prove that a proposed intervention will reduce local air or surface temperature. Ground validation, sensitivity analysis, spatial cross-validation where relevant, and independent review are needed before operational use.
+HEATLAS was developed by **Cosmic Foundry** at **Rajasthan Technical University, Kota**, for the **Bharatiya Antariksh Hackathon (BAH) 2026**. The team comprised **Priyanka Banoda (Team Leader), Krishan Kumar Kasana, Kritika Choudhary and Devanshu Gupta**.
 
-## Suggested citation
+As team leader, I led the research framing, review of reports and research material, problem formulation, conceptual feature planning, analytical-layer rationale, multi-scale interface design and proposed system architecture. I also worked on the Jaipur GEE analysis and its analytical framework. The individual contribution document gives a concise account of this role while distinguishing the proposed platform from the components implemented in code.
 
-If you refer to this repository in a report or application, cite it as a team project and include the repository URL and the date/version you accessed. A formal citation file can be added after the team confirms authorship and licensing.
+## Interpretation and research limitations
+
+The indices in this prototype are constructed from selected datasets, normalisation ranges, weighted combinations and threshold-based rules. They provide an exploratory framework for comparing spatial patterns; they do not establish causal effects or demonstrate that a particular intervention will reduce local surface or air temperature. The mitigation layers identify locations satisfying coded screening conditions and do not quantify cooling benefit, cost, feasibility or implementation readiness.
+
+Further work should include sensitivity analysis, correction of aggregation and formulation issues, explicit observation-date tracking, independent or ground-based validation, and careful testing before the outputs are used for operational decisions.
+
+```
