@@ -1,38 +1,38 @@
-# Implementation status and limitations
+# Implementation Status
 
-This page separates existing implementation from planned or incomplete elements. It is based on the supplied GEE source script and the accompanying project status report.
+This page distinguishes the components implemented in the current HEATLAS project files from proposed features and remaining work. The status is based on the supplied `Jaipur_Heat_v3.js` script, project archive and technical review.
 
-## Present in the shared GEE script
+## Current implementation
 
-- Jaipur district boundary selection from GAUL level 2.
-- Nominal 1 km grid generation in EPSG:3857 and grid metadata.
-- Multi-source satellite, land-cover, population and meteorological data processing.
-- Daytime and nighttime MODIS LST map layers.
-- Derived spectral and environmental indicators.
-- Heat storage, cooling capacity, day/night heat risk, exposure, vulnerability and resilience calculations.
-- Four rule-based intervention-suitability masks.
-- Grid-level feature aggregation and map visualisation in the Code Editor.
+| Component | Status | What is present |
+|---|---|---|
+| Jaipur study area and 1 km grid | Implemented in GEE | Jaipur district boundary, grid cells and cell-level metadata. |
+| Multi-source data processing | Implemented, with limitations | MODIS, Sentinel-2, ERA5-Land, Sentinel-5P and supporting terrain, land-cover and population datasets are processed in GEE. Source dates and spatial resolutions are not fully harmonised. |
+| Environmental indicators | Implemented in GEE | Thermal, vegetation, built-up, water, albedo, atmospheric, terrain and moisture-related indicators. |
+| Heat and risk analysis | Implemented in GEE; requires validation | Heat Storage, Cooling Capacity, Day/Night Heat Risk, Exposure, Vulnerability and Resilience layers are calculated and displayed. |
+| Mitigation suitability | Implemented as rule-based masks | Four suitability layers: cool roofs, urban forest, water-sensitive cooling and reflective surfaces. |
+| Grid-level analytical output | Partially complete | The script reduces stacked bands over the 1 km grid and displays the resulting feature collection. Automated CSV/GeoJSON export is not present in the supplied script. |
 
-## Important issues to address before quantitative or operational claims
+## Not yet implemented or integrated
 
-1. **Day-risk weights:** Day Heat Drivers (0.65), Cooling Deficit (0.30) and Environmental Stress (0.13) total 1.08. The score is clamped to 0–1, which can cause saturation and reduce differentiation among high-scoring cells.
-2. **Night LST in the final grid table:** nighttime LST is displayed on the map and used by Night Heat Risk, but the raw nighttime LST band is not separately added to the final stacked table.
-3. **Population aggregation:** the final grid operation uses a mean reducer for the full stack. Population should be considered separately and generally aggregated with a sum if the intended field is people per grid cell.
-4. **Albedo formulation:** the current Sentinel-2 band formula requires verification against an appropriate published method before the resulting albedo values are used quantitatively.
-5. **Temporal consistency:** the collections do not all use the same observation window. MODIS LST uses a 40-day window, several other collections use a rolling 16-day window, ET uses a fixed 2025 interval, and WorldPop is a 2020 population layer.
-6. **Empty collection handling:** safeguards and fallback logic are needed for dates when one or more collections contain no usable images.
-7. **Mixed source resolution:** layers with different native resolutions are aggregated to the 1 km grid. A 1 km output cell does not mean every input has 1 km native detail.
-8. **Built-density proxy:** the NDBI-based built-density measure may confuse bare soil and built surfaces, particularly in semi-arid settings. It should be validated against a suitable building or land-cover reference.
-9. **Export and reproducibility:** the current script does not export its final feature collection to Drive or an Earth Engine asset.
+- The Node.js/Express backend is a prototype with placeholder API responses; it is not connected to the main v3 GEE analysis.
+- A user-facing web frontend and interactive dashboard are not included in the supplied code.
+- Machine-learning prediction, SHAP-based explanations, intervention simulation and the Gemini assistant remain proposed features, not implemented components.
+- Automated multi-source refresh scheduling, database integration and public deployment are not present.
+- State-wide and national-scale processing are future extensions; the current GEE analysis is focused on Jaipur district.
 
-## Not implemented in this repository release
+## Priority technical work
 
-- Connected production backend/API serving the v3 GEE outputs.
-- Completed map-based web frontend or dashboard.
-- Trained Random Forest or other ML heat model.
-- Validated intervention-impact simulator.
-- SHAP or other model-explanation pipeline.
-- Gemini-based assistant.
-- Automated data-refresh scheduler or public deployment.
+Before treating the analytical outputs as validated results, the following should be addressed:
 
-These may be future development directions, but must not be presented as working features until implemented and tested.
+1. Revisit and normalise the Day Heat Risk weighting; the current component weights total 1.08 before clamping.
+2. Include nighttime LST in the final stacked grid output if day/night comparison is required downstream.
+3. Use an appropriate aggregation method for each variable: population should be summed, categorical land cover should use a categorical reducer, and continuous variables may use a mean where appropriate.
+4. Verify the Sentinel-2 albedo formulation against a suitable published method.
+5. Document the observation period used for each source and add safeguards for empty image collections.
+6. Export the grid dataset and validate its records, fields and spatial outputs before using it for further modelling.
+
+## Scope note
+
+HEATLAS currently has a substantive Google Earth Engine geospatial-analysis component and a broader proposed decision-support architecture. The workflow, AI/ML engine, dashboard and national-scale expansion describe the intended direction of the project; they should not be interpreted as completed or deployed functionality.
+
