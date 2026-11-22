@@ -95,4 +95,3 @@ The indices in this prototype are constructed from selected datasets, normalisat
 
 Further work should include sensitivity analysis, correction of aggregation and formulation issues, explicit observation-date tracking, independent or ground-based validation, and careful testing before the outputs are used for operational decisions.
 
-```
